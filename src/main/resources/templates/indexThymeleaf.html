@@ -1,0 +1,92 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" >
+<title>springboot整合Thymeleaf</title>
+</head>
+<body>
+<form th:action="@{/indexThymeleaf}" method="post" th:object="${user}">
+    <input name="id" th:value="*{id}"/>
+    <input name="name" th:value="*{name}"/>
+    
+    <input type="submit" value="submit" />
+</form>
+
+<a th:href="@{/indexThymeleaf}">相对路径</a>
+<a th:href="@{https://www.baidu.com/}">绝对路径</a>
+
+<a th:href="@{/indexThymeleaf(id=id,name=name)}">相对路径-通过使用()传参</a>
+<a th:href="@{/indexThymeleaf/{id}(id=2)}">相对路径-通过 restful风格进行参数传递</a>
+
+<div th:text="helloThymeleaf"></div>
+
+<h3 th:text="${title}"></h3>
+
+<div th:text="#{cus.val}"></div>
+
+<div th:include="test :: foot"></div>
+
+<span th:if="${user.name} == '男'">性别：男</span>
+<span th:if="${user.name} == '女'">性别：女</span>
+
+<span th:unless="${user.name} == '女'">性别：男</span>
+
+<div th:switch="${user.id}">
+<span th:case="1">ID 为 1</span>
+<span th:case="2">ID 为 2</span>
+<span th:case="3">ID 为 3</span>
+</div>
+
+<br>----------------------------------------------<br>
+
+<table border="1">
+  <tr>
+    <th>entrys</th>
+  </tr>
+  <tr th:each="entrys : ${usersMap}">
+    <td th:text="${entrys}"></td>
+  </tr>
+</table>
+<table border="1">
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>ID</th>
+    <th>Name</th>
+    <th>ID</th>
+    <th>Name</th>
+  </tr>
+  <tr th:each="entrys : ${usersMap}">
+  	<!-- 方式一 -->
+  	<td th:each="entry:${entrys}" th:text="${entry.value.id}" />
+  	<td th:each="entry:${entrys}" th:text="${entry.value.name}" />
+  	<!-- <td th:each="entry:${entrys}" th:text="${entry.key}" /> -->
+  	
+  	<!-- 方式二 -->
+  	<td th:each="entry:${entrys}">
+  		<span th:text="${entry.value.id}"></span>
+  	</td>
+  	<td th:each="entry:${entrys}">
+  		<span th:text="${entry.value.name}"></span>
+  	</td>
+  	<!-- <td th:each="entry:${entrys}">
+  		<span th:text="${entry.key}"></span>
+  	</td> -->
+  	
+  	<!-- 方式三 -->
+  	<td th:text="${entrys.value.id}" />
+  	<td th:text="${entrys.value.name}" />
+  	<!-- <td th:text="${entrys.key}" /> -->
+  </tr>
+</table>
+<br>
+
+<div th:text="'当前时间：' + ${#dates.format(nowDate,'yyy/MM/dd')}"></div>
+
+<div th:text="${html}"></div>
+<div th:utext="${html}"></div>
+
+<br>
+
+</body>
+</html>
